@@ -1,0 +1,26 @@
+name: Log Analyzer
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '0 * * * *'  # runs every hour
+
+jobs:
+  analyze-and-archive:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Run analyzer
+        run: python src/analyze.py
+
+      - name: Run archiver
+        run: python src/archive.py
